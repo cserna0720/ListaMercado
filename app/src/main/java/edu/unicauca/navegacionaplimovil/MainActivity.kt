@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -521,19 +522,70 @@ fun QuintaPantalla(
 @Composable
 fun SextaPantalla(
     irAinicio: () -> Unit
-){
-    Column (horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()){
-        Text(text = "Organiza tu lista de mercado de forma rápida y sencilla,")
-        Text(text = "Agrega productos, clasifícalos por categorías y guarda todo")
-        Text(text = "en un solo lugar")
-        Button(onClick = irAinicio) {
-            Text(text = "Ir al Inicio")
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Descripción de la aplicación
+            Text(
+                text = "Organiza tu lista de mercado de forma rápida y sencilla,",
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = "Agrega productos, clasificalos por categorías y guarda todo",
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = "en un solo lugar",
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+
+            // Sección de desarrolladores
+            Text(
+                text = "Desarrollado por:",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(vertical = 16.dp)
+            )
+
+            Text(
+                text = "Cristian Alberto Serna Carvajal",
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = "Lenyn Ferney Ballen Campo",
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = "Luis Hernando Mayor Guerrero",
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+
+            // Botón para volver al inicio
+            Button(
+                onClick = irAinicio,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F51B5))
+            ) {
+                Text(
+                    text = "Ir al Inicio",
+                    color = Color.White
+                )
+            }
         }
     }
 }
-
 @Composable
 fun Navegacion() {
     val navHostController = rememberNavController()
