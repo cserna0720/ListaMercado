@@ -172,7 +172,7 @@ fun SegundaPantalla(
     ) {
         BotonPersonalizado("LISTA DE COMPRA",)
 
-        Button(modifier = Modifier.offset( x = 150.dp ),
+        Button(modifier = Modifier.offset( x = 200.dp ),
             onClick = iraTercera,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Blue)
@@ -209,7 +209,7 @@ fun SegundaPantalla(
         BotonPersonalizado("GUARDAR LISTA") {
             Toast.makeText(context, "Lista guardada", Toast.LENGTH_SHORT).show()
         }
-
+        Spacer(modifier = Modifier.weight(3f))
         Button(onClick =  iraCuarta,
             modifier = Modifier.offset(y = 15.dp)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -225,7 +225,7 @@ fun SegundaPantalla(
             }
         }
         Button(onClick = iraSexta,
-           modifier = Modifier.offset(x=105.dp, y = 30.dp)
+           modifier = Modifier.offset(x=140.dp, y = 30.dp)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
@@ -240,7 +240,7 @@ fun SegundaPantalla(
             }
         }
         Button(onClick = iraQuinta,
-            modifier = Modifier.offset(x=200.dp,y=-100.dp)) {
+            modifier = Modifier.offset(x=260.dp,y=-100.dp)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
                     imageVector = Icons.Default.List,
@@ -378,7 +378,7 @@ fun TerceraPantalla(
             Toast.makeText(context, "Lista guardada", Toast.LENGTH_SHORT).show()
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(3f))
 
         Button(onClick = iraCuarta,
             modifier = Modifier.offset(y = 15.dp)) {
@@ -395,7 +395,7 @@ fun TerceraPantalla(
             }
         }
         Button(onClick = iraSexta,
-            modifier = Modifier.offset(x=105.dp, y = 30.dp)
+            modifier = Modifier.offset(x=140.dp, y = 30.dp)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
@@ -410,7 +410,7 @@ fun TerceraPantalla(
             }
         }
         Button(onClick = iraQuinta,
-            modifier = Modifier.offset(x=200.dp,y=-100.dp)) {
+            modifier = Modifier.offset(x=260.dp,y=-100.dp)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
                     imageVector = Icons.Default.List,
