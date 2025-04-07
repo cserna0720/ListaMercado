@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-      <SelectionState runConfigName="app">
+      <SelectionState runConfigName="NavegacionAplimovil.app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PreveiwPantallaInicial">
+      <SelectionState runConfigName="PreviewListaDeCompra">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
