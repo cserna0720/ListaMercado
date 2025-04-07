@@ -53,6 +53,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -100,15 +102,27 @@ fun PantallaInicial(
             modifier = Modifier.offset(x = 0.dp, y = 100.dp),
             singleLine = true
         )
-        var texto2 by rememberSaveable { mutableStateOf("") }
+        var password by rememberSaveable { mutableStateOf("") }
+        var passwordVisible by remember { mutableStateOf(false) }
         OutlinedTextField(
-            value = texto2,
-            onValueChange = { texto2 = it },
+            value = password,
+            onValueChange = { password = it },
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
             label = { Text("Contraseña") },
             modifier = Modifier.offset(x = 0.dp, y = 100.dp),
-            singleLine = true
+            singleLine = true,
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisible) R.drawable.ojoa_removebg_preview else R.drawable.ojoc_removebg_preview
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Image(
+                        painter = painterResource(id = icon),
+                        contentDescription = "Mostrar/Ocultar contraseña",
+                        modifier = Modifier.size(24.dp)
+                    )
 
+                }
+            }
         )
 
         Image(
