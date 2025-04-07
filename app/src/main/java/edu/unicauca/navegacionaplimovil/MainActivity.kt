@@ -518,7 +518,6 @@ fun QuintaPantalla(
         }
     }
 }
-
 @Composable
 fun SextaPantalla(
     irAinicio: () -> Unit
@@ -530,9 +529,27 @@ fun SextaPantalla(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             modifier = Modifier.fillMaxSize()
         ) {
+            // Logo de la aplicación
+            Image(
+                painter = painterResource(id = R.drawable.unnamed), // Asegúrate de usar el nombre correcto del archivo
+                contentDescription = "Logo Quick Market List",
+                modifier = Modifier
+                    .size(150.dp)
+                    .padding(vertical = 16.dp)
+            )
+
+            // Título de la aplicación
+            Text(
+                text = "QUICK MARKET LIST",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1E88E5), // Color azul similar al logo
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+
             // Descripción de la aplicación
             Text(
                 text = "Organiza tu lista de mercado de forma rápida y sencilla,",
@@ -570,13 +587,15 @@ fun SextaPantalla(
                 modifier = Modifier.padding(bottom = 24.dp)
             )
 
+            Spacer(modifier = Modifier.weight(1f))
+
             // Botón para volver al inicio
             Button(
                 onClick = irAinicio,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F51B5))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1E88E5))
             ) {
                 Text(
                     text = "Ir al Inicio",
