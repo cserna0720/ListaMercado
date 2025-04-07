@@ -348,13 +348,13 @@ fun TerceraPantalla(
 
         }
 
-        SeccionCategoriap3("CARNES", R.drawable.gratis_png_carne_cruda_en_rodajas_carne_de_bistec_carne_roja_carne_ingredientes_de_carne)
+        SeccionCategoriap3("CARNES", R.drawable.gratis_png_carne_cruda_en_rodajas_carne_de_bistec_carne_roja_carne_ingredientes_de_carne_removebg_preview)
         CampoDeTextop3(fruta1) { fruta1 = it }
         CampoDeTextop3(fruta2) { fruta2 = it }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        SeccionCategoriap3("LACTEOS", R.drawable.lacteos)
+        SeccionCategoriap3("LACTEOS", R.drawable.lacteos_removebg_preview)
         CampoDeTextop3(verdura1) { verdura1 = it }
         CampoDeTextop3(verdura2) { verdura2 = it }
 
