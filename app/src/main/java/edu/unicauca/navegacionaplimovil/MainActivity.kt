@@ -22,9 +22,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -658,20 +660,23 @@ fun TituloSeccion(texto: String) {
         modifier = Modifier.padding(vertical = 8.dp)
     )
 }
+
 @Composable
 fun QuintaPantalla(
-irAinicio: () -> Unit
+    irAinicio: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .background(Color.White)
     ) {
         // Encabezado "TUS LISTAS" con iconos
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 20.dp),
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -679,51 +684,49 @@ irAinicio: () -> Unit
                 text = "TUS LISTAS",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF90CAF9)
+                color = Color(0xFF90CAF9),
+                modifier = Modifier.padding(start = 16.dp)
             )
             Row(
+                modifier = Modifier.padding(end = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.List,
                     contentDescription = "Listas",
-                    tint = Color(0xFF90CAF9),
-                    modifier = Modifier.size(24.dp)
+                    tint = Color(0xFF90CAF9)
                 )
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = "Carrito",
-                    tint = Color(0xFF90CAF9),
-                    modifier = Modifier.size(24.dp)
+                    tint = Color(0xFF90CAF9)
                 )
             }
         }
 
-        // Grid de meses con sus productos (2x2)
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            // Primera fila: Enero y Febrero
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                MesCard("ENERO", listOf("Producto", "Producto"))
-                MesCard("FEBRERO", listOf("Producto", "Producto"))
-            }
+        Spacer(modifier = Modifier.height(16.dp))
 
-            // Segunda fila: Marzo y Abril
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                MesCard("MARZO", listOf("Producto", "Producto"))
-                MesCard("ABRIL", listOf("Producto", "Producto"))
-            }
+        // Contenedor principal con scroll
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Enero
+            MesCard("ENERO", listOf("Producto", "Producto"))
+
+            // Febrero
+            MesCard("FEBRERO", listOf("Producto", "Producto"))
+
+            // Marzo
+            MesCard("MARZO", listOf("Producto", "Producto"))
+
+            // Abril
+            MesCard("ABRIL", listOf("Producto", "Producto"))
         }
 
-        // Botón de retroceso
+        // Botón de retroceso circular rojo
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -748,38 +751,33 @@ irAinicio: () -> Unit
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(bottom = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Icon(
                 imageVector = Icons.Default.Home,
                 contentDescription = "Inicio",
-                tint = Color.Gray,
-                modifier = Modifier.size(24.dp)
+                tint = Color.Gray
             )
             Icon(
                 imageVector = Icons.Default.List,
                 contentDescription = "Listas",
-                tint = Color(0xFF90CAF9), // Activo
-                modifier = Modifier.size(24.dp)
+                tint = Color(0xFF90CAF9)
             )
             Icon(
                 imageVector = Icons.Default.ShoppingCart,
                 contentDescription = "Carrito",
-                tint = Color.Gray,
-                modifier = Modifier.size(24.dp)
+                tint = Color.Gray
             )
         }
     }
 }
 
-// Componente para mostrar un mes con sus productos
 @Composable
 fun MesCard(mes: String, productos: List<String>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
     ) {
         // Título del mes
         Text(
@@ -789,25 +787,31 @@ fun MesCard(mes: String, productos: List<String>) {
             color = Color(0xFF90CAF9),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 8.dp),
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(vertical = 8.dp),
             textAlign = TextAlign.Center
         )
 
-        // Lista de productos
-        productos.forEach { producto ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp)
-                    .background(Color.White, RoundedCornerShape(4.dp))
-                    .padding(8.dp)
-            ) {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Contenedor de productos
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            productos.forEach { producto ->
                 Text(
                     text = producto,
                     color = Color.Gray,
                     fontSize = 14.sp,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White, RoundedCornerShape(4.dp))
+                        .padding(vertical = 8.dp)
                 )
             }
         }
