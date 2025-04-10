@@ -26,13 +26,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -57,6 +60,7 @@ import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -496,7 +500,7 @@ fun CampoDeTextop3(valor: String, onValueChange: (String) -> Unit) {
 
 @Composable
 fun CuartaPantalla(
-    irAinicio: () -> Unit
+    irAtras: () -> Unit  // Cambiado de irAinicio a irAtras
 ) {
     Column(
         modifier = Modifier
@@ -612,7 +616,7 @@ fun CuartaPantalla(
             contentAlignment = Alignment.Center
         ) {
             IconButton(
-                onClick = irAinicio,
+                onClick = irAtras,  // Cambiado a irAtras
                 modifier = Modifier
                     .size(40.dp)
                     .background(Color.Red, CircleShape)
@@ -628,7 +632,7 @@ fun CuartaPantalla(
     }
 }
 
-// Componente reutilizable para las tarjetas de producto
+// Mantener los componentes auxiliares
 @Composable
 fun ProductoCard(
     texto: String,
@@ -636,7 +640,7 @@ fun ProductoCard(
 ) {
     Box(
         modifier = modifier
-            .height(90.dp) // Altura reducida
+            .height(90.dp)
             .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
             .padding(8.dp),
         contentAlignment = Alignment.Center
@@ -650,7 +654,6 @@ fun ProductoCard(
     }
 }
 
-// Componente para los títulos de sección
 @Composable
 fun TituloSeccion(texto: String) {
     Text(
@@ -661,10 +664,9 @@ fun TituloSeccion(texto: String) {
         modifier = Modifier.padding(vertical = 8.dp)
     )
 }
-
 @Composable
 fun QuintaPantalla(
-    irAinicio: () -> Unit
+    irAtras: () -> Unit  // Cambiado de irAinicio a irAtras
 ) {
     Column(
         modifier = Modifier
@@ -735,7 +737,7 @@ fun QuintaPantalla(
             contentAlignment = Alignment.Center
         ) {
             IconButton(
-                onClick = irAinicio,
+                onClick = irAtras,  // Usando irAtras en lugar de irAinicio
                 modifier = Modifier
                     .size(48.dp)
                     .background(Color.Red, CircleShape)
@@ -907,18 +909,177 @@ fun SextaPantalla(
         }
     }
 }
+
+
+@Composable
+fun SeptimaPantalla(
+    irAtras: () -> Unit
+) {
+    var nombre by remember { mutableStateOf("") }
+    var apellido by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var telefono by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Logo
+        Image(
+            painter = painterResource(id = R.drawable.unnamed),
+            contentDescription = "Logo",
+            modifier = Modifier
+                .size(120.dp)
+                .padding(vertical = 16.dp)
+        )
+
+        Text(
+            text = "CREAR CUENTA",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF1E88E5),
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        // Campos de registro
+        OutlinedTextField(
+            value = nombre,
+            onValueChange = { nombre = it },
+            label = { Text("Nombre") },
+            leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true
+        )
+
+        OutlinedTextField(
+            value = apellido,
+            onValueChange = { apellido = it },
+            label = { Text("Apellido") },
+            leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true
+        )
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Correo Electrónico") },
+            leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        )
+
+        OutlinedTextField(
+            value = telefono,
+            onValueChange = { telefono = it },
+            label = { Text("Teléfono") },
+            leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+        )
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Contraseña") },
+            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true,
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisible) R.drawable.ojoa_removebg_preview else R.drawable.ojoc_removebg_preview
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Image(
+                        painter = painterResource(id = icon),
+                        contentDescription = "Mostrar/Ocultar contraseña",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Botón de registro
+        Button(
+            onClick = {
+                if (validarCampos(nombre, apellido, email, telefono, password)) {
+                    Toast.makeText(context, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
+                    irAtras()
+                } else {
+                    Toast.makeText(context, "Por favor complete todos los campos correctamente", Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+        ) {
+            Text("Registrarse", color = Color.White)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Botón de retroceso
+        IconButton(
+            onClick = irAtras,
+            modifier = Modifier
+                .size(48.dp)
+                .background(Color.Red, CircleShape)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.flecha_izquirda),
+                contentDescription = "Regresar",
+                tint = Color.White
+            )
+        }
+    }
+}
+
+// Función para validar los campos
+private fun validarCampos(
+    nombre: String,
+    apellido: String,
+    email: String,
+    telefono: String,
+    password: String
+): Boolean {
+    return nombre.isNotBlank() &&
+            apellido.isNotBlank() &&
+            email.matches(Regex("[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) &&
+            telefono.matches(Regex("\\d{10}")) &&
+            password.length >= 6
+}
+
 @Composable
 fun Navegacion() {
     val navHostController = rememberNavController()
     NavHost(
         navController = navHostController,
         startDestination = Pantallas.Inicio.name
-
     ) {
         composable(route = Pantallas.Inicio.name) {
             PantallaInicial(
-                iraSegunda= { navHostController.navigate(Pantallas.Segunda.name) },
-                onNextClick = { navHostController.navigate(Pantallas.Segunda.name) }
+                iraSegunda = { navHostController.navigate(Pantallas.Segunda.name) },
+                onNextClick = { navHostController.navigate(Pantallas.Septima.name) }
             )
         }
         composable(route = Pantallas.Segunda.name) {
@@ -927,7 +1088,7 @@ fun Navegacion() {
                 iraCuarta = { navHostController.navigate(Pantallas.Cuarta.name) },
                 iraQuinta = { navHostController.navigate(Pantallas.Quinta.name) },
                 iraSexta = { navHostController.navigate(Pantallas.Sexta.name) },
-               irAinicio =  { navHostController.navigate(Pantallas.Inicio.name) }
+                irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
             )
         }
         composable(route = Pantallas.Tercera.name) {
@@ -936,26 +1097,33 @@ fun Navegacion() {
                 iraSegunda = { navHostController.navigate(Pantallas.Segunda.name) },
                 iraQuinta = { navHostController.navigate(Pantallas.Quinta.name) },
                 iraSexta = { navHostController.navigate(Pantallas.Sexta.name) },
-                irAinicio =  { navHostController.navigate(Pantallas.Inicio.name) })
-        }
-            composable(route = Pantallas.Cuarta.name) {
-                CuartaPantalla(
-                    irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
-                )
-            }
-        composable(route = Pantallas.Quinta.name) {
-            QuintaPantalla (
                 irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
+            )
+        }
+        composable(route = Pantallas.Cuarta.name) {
+            CuartaPantalla(
+                irAtras = { navHostController.navigateUp() }
+            )
+        }
+        composable(route = Pantallas.Quinta.name) {
+            QuintaPantalla(
+                irAtras = { navHostController.navigateUp() }
             )
         }
         composable(route = Pantallas.Sexta.name) {
-            SextaPantalla (
+            SextaPantalla(
                 irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
             )
         }
+        composable(route = Pantallas.Septima.name) {
+            SeptimaPantalla(
+                irAtras = { navHostController.navigateUp() }
+            )
         }
     }
+}
 
+// ... [El resto del código existente se mantiene igual] ...
     @Preview(showBackground = true)
     @Composable
     fun PreviewInicial() {
@@ -973,7 +1141,8 @@ fun Navegacion() {
     Tercera,
     Cuarta,
         Quinta,
-        Sexta
+        Sexta,
+        Septima,
 
     }
 
