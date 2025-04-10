@@ -22,9 +22,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -492,156 +494,157 @@ fun CampoDeTextop3(valor: String, onValueChange: (String) -> Unit) {
     }
 }
 
-    @Composable
-    fun CuartaPantalla(
-        irAinicio: () -> Unit
+@Composable
+fun CuartaPantalla(
+    irAinicio: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-        Column(
+        // Encabezado "TUS COMPRAS" con iconos
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                .fillMaxWidth()
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            // Encabezado "TUS COMPRAS" con iconos
-            Row(
+            Text(
+                text = "TUS COMPRAS",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF90CAF9),
+                modifier = Modifier.padding(start = 16.dp)
+            )
+            Icon(
+                imageVector = Icons.Default.ShoppingCart,
+                contentDescription = "Carrito",
+                tint = Color(0xFF90CAF9),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(end = 16.dp)
+                    .size(24.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Grid de productos (2x2)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Columna izquierda
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    text = "TUS COMPRAS",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF90CAF9) // Color azul claro
+                ProductoCard("Producto")
+                ProductoCard("Producto")
+            }
+
+            // Columna derecha
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                ProductoCard("Producto")
+                ProductoCard("Producto")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Sección "TIENDAS DISPONIBLES"
+        TituloSeccion("TIENDAS DISPONIBLES")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ProductoCard("Producto", modifier = Modifier.weight(1f))
+            ProductoCard("Producto", modifier = Modifier.weight(1f))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Sección "ESTADÍSTICA POR COMPRA"
+        TituloSeccion("ESTADÍSTICA POR COMPRA")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ProductoCard("Producto", modifier = Modifier.weight(1f))
+            ProductoCard("Producto", modifier = Modifier.weight(1f))
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        // Sección inferior con "VALOR TOTAL" y "PRECIO DETALLADO"
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "VALOR TOTAL\nPOR COMPRA",
+                fontSize = 14.sp,
+                color = Color(0xFF90CAF9),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = "PRECIO\nDETALLADO",
+                fontSize = 14.sp,
+                color = Color(0xFF90CAF9),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        // Botón de retroceso
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            IconButton(
+                onClick = irAinicio,
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(Color.Red, CircleShape)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.flecha_izquirda),
+                    contentDescription = "Regresar",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
                 )
-                Row {
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "Carrito",
-                        tint = Color(0xFF90CAF9),
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
-
-            // Grid de productos (2x2)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                // Columna izquierda
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    ProductoCard("Producto")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    ProductoCard("Producto")
-                }
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                // Columna derecha
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    ProductoCard("Producto")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    ProductoCard("Producto")
-                }
-            }
-
-            // Sección "TIENDAS DISPONIBLES"
-            TituloSeccion("TIENDAS DISPONIBLES")
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                ProductoCard("Producto")
-                Spacer(modifier = Modifier.width(8.dp))
-                ProductoCard("Producto")
-            }
-
-            // Sección "ESTADÍSTICA POR COMPRA"
-            TituloSeccion("ESTADÍSTICA POR COMPRA")
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                ProductoCard("Producto")
-                Spacer(modifier = Modifier.width(8.dp))
-                ProductoCard("Producto")
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            // Sección inferior con "VALOR TOTAL" y "PRECIO DETALLADO"
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "VALOR TOTAL\nPOR COMPRA",
-                    fontSize = 16.sp,
-                    color = Color(0xFF90CAF9),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = "PRECIO\nDETALLADO",
-                    fontSize = 16.sp,
-                    color = Color(0xFF90CAF9),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            // Botón de retroceso
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                IconButton(
-                    onClick = irAinicio,
-                    modifier = Modifier
-                        .size(48.dp)
-                        .background(Color.Red, CircleShape)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.flecha_izquirda),
-                        contentDescription = "Regresar",
-                        tint = Color.White
-                    )
-                }
             }
         }
     }
+}
 
 // Componente reutilizable para las tarjetas de producto
 @Composable
-fun ProductoCard(texto: String) {
+fun ProductoCard(
+    texto: String,
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
+            .height(90.dp) // Altura reducida
             .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
-            .padding(16.dp)
-            .size(120.dp),
+            .padding(8.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = texto,
             color = Color.Gray,
+            fontSize = 14.sp,
             textAlign = TextAlign.Center
         )
     }
@@ -652,7 +655,7 @@ fun ProductoCard(texto: String) {
 fun TituloSeccion(texto: String) {
     Text(
         text = texto,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
         color = Color(0xFF90CAF9),
         modifier = Modifier.padding(vertical = 8.dp)
@@ -660,18 +663,20 @@ fun TituloSeccion(texto: String) {
 }
 @Composable
 fun QuintaPantalla(
-irAinicio: () -> Unit
+    irAinicio: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .background(Color.White)
     ) {
         // Encabezado "TUS LISTAS" con iconos
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 20.dp),
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -679,51 +684,49 @@ irAinicio: () -> Unit
                 text = "TUS LISTAS",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF90CAF9)
+                color = Color(0xFF90CAF9),
+                modifier = Modifier.padding(start = 16.dp)
             )
             Row(
+                modifier = Modifier.padding(end = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.List,
                     contentDescription = "Listas",
-                    tint = Color(0xFF90CAF9),
-                    modifier = Modifier.size(24.dp)
+                    tint = Color(0xFF90CAF9)
                 )
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = "Carrito",
-                    tint = Color(0xFF90CAF9),
-                    modifier = Modifier.size(24.dp)
+                    tint = Color(0xFF90CAF9)
                 )
             }
         }
 
-        // Grid de meses con sus productos (2x2)
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            // Primera fila: Enero y Febrero
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                MesCard("ENERO", listOf("Producto", "Producto"))
-                MesCard("FEBRERO", listOf("Producto", "Producto"))
-            }
+        Spacer(modifier = Modifier.height(16.dp))
 
-            // Segunda fila: Marzo y Abril
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                MesCard("MARZO", listOf("Producto", "Producto"))
-                MesCard("ABRIL", listOf("Producto", "Producto"))
-            }
+        // Contenedor principal con scroll
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Enero
+            MesCard("ENERO", listOf("Producto", "Producto"))
+
+            // Febrero
+            MesCard("FEBRERO", listOf("Producto", "Producto"))
+
+            // Marzo
+            MesCard("MARZO", listOf("Producto", "Producto"))
+
+            // Abril
+            MesCard("ABRIL", listOf("Producto", "Producto"))
         }
 
-        // Botón de retroceso
+        // Botón de retroceso circular rojo
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -748,38 +751,33 @@ irAinicio: () -> Unit
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(bottom = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Icon(
                 imageVector = Icons.Default.Home,
                 contentDescription = "Inicio",
-                tint = Color.Gray,
-                modifier = Modifier.size(24.dp)
+                tint = Color.Gray
             )
             Icon(
                 imageVector = Icons.Default.List,
                 contentDescription = "Listas",
-                tint = Color(0xFF90CAF9), // Activo
-                modifier = Modifier.size(24.dp)
+                tint = Color(0xFF90CAF9)
             )
             Icon(
                 imageVector = Icons.Default.ShoppingCart,
                 contentDescription = "Carrito",
-                tint = Color.Gray,
-                modifier = Modifier.size(24.dp)
+                tint = Color.Gray
             )
         }
     }
 }
 
-// Componente para mostrar un mes con sus productos
 @Composable
 fun MesCard(mes: String, productos: List<String>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
     ) {
         // Título del mes
         Text(
@@ -789,25 +787,31 @@ fun MesCard(mes: String, productos: List<String>) {
             color = Color(0xFF90CAF9),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 8.dp),
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(vertical = 8.dp),
             textAlign = TextAlign.Center
         )
 
-        // Lista de productos
-        productos.forEach { producto ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp)
-                    .background(Color.White, RoundedCornerShape(4.dp))
-                    .padding(8.dp)
-            ) {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Contenedor de productos
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            productos.forEach { producto ->
                 Text(
                     text = producto,
                     color = Color.Gray,
                     fontSize = 14.sp,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White, RoundedCornerShape(4.dp))
+                        .padding(vertical = 8.dp)
                 )
             }
         }
