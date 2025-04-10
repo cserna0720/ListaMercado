@@ -54,6 +54,8 @@ import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -136,7 +138,7 @@ fun PantallaInicial(
             onClick = iraSegunda,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Blue)
-            ) {
+        ) {
             Text(text = "Iniciar Sesion")
 
         }
@@ -144,19 +146,19 @@ fun PantallaInicial(
         Button(onClick = onNextClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Blue)
-            ) {
+        ) {
             Text(text = "Crear ususario")
         }
     }
 }
 @Composable
 fun SegundaPantalla(
-
     iraTercera: () -> Unit,
     iraQuinta: () -> Unit,
     iraCuarta: () -> Unit,
     iraSexta: () -> Unit,
-    irAinicio: () -> Unit
+    irAinicio: () -> Unit,
+    iraCalculadora: () -> Unit
 ) {
     val context = LocalContext.current
     var fruta1 by remember { mutableStateOf("") }
@@ -170,7 +172,7 @@ fun SegundaPantalla(
             .padding(16.dp),
 
 
-    ) {
+        ) {
         BotonPersonalizado("LISTA DE COMPRA",)
 
         Button(modifier = Modifier.offset( x = 200.dp ),
@@ -192,9 +194,9 @@ fun SegundaPantalla(
                     modifier = Modifier
                         .size(20.dp)
 
-                    )
-              }
+                )
             }
+        }
 
         SeccionCategoria("FRUTAS", R.drawable.image_removebg_preview)
         CampoDeTexto(fruta1) { fruta1 = it }
@@ -226,7 +228,7 @@ fun SegundaPantalla(
             }
         }
         Button(onClick = iraSexta,
-           modifier = Modifier.offset(x=140.dp, y = 30.dp)
+            modifier = Modifier.offset(x=140.dp, y = 30.dp)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
@@ -240,7 +242,7 @@ fun SegundaPantalla(
                 )
             }
         }
-        Button(onClick = iraQuinta,
+        Button(onClick = iraCalculadora,
             modifier = Modifier.offset(x=260.dp,y=-100.dp)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
@@ -249,7 +251,7 @@ fun SegundaPantalla(
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    text = "Mis listas",
+                    text = "Calculadora",
                     textAlign = TextAlign.Center
                 )
             }
@@ -325,7 +327,8 @@ fun TerceraPantalla(
     iraCuarta: () -> Unit,
     iraSexta: () -> Unit,
     irAinicio: () -> Unit,
-    iraSegunda: () -> Unit
+    iraSegunda: () -> Unit,
+    iraCalculadora: () -> Unit
 ) {
     val context = LocalContext.current
     var fruta1 by remember { mutableStateOf("") }
@@ -410,16 +413,16 @@ fun TerceraPantalla(
                 )
             }
         }
-        Button(onClick = iraQuinta,
+        Button(onClick = iraCalculadora,
             modifier = Modifier.offset(x=260.dp,y=-100.dp)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
                     imageVector = Icons.Default.List,
-                    contentDescription = "Icono mis listas",
+                    contentDescription = "Icono calculadora",
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    text = "Mis listas",
+                    text = "Calculadora",
                     textAlign = TextAlign.Center
                 )
             }
@@ -492,22 +495,10 @@ fun CampoDeTextop3(valor: String, onValueChange: (String) -> Unit) {
     }
 }
 
-    @Composable
-    fun CuartaPantalla(
-        irAinicio: () -> Unit
-    ){
-        Column (horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()){
-            Text(text = "Ultima Pantalla")
-            Button(onClick = irAinicio) {
-                Text(text = "Ir al Inicio")
-            }
-        }
-    }
 @Composable
-fun QuintaPantalla(
+fun CuartaPantalla(
     irAinicio: () -> Unit,
+    iraCalculadora: () -> Unit
 ){
     Column (horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -516,11 +507,56 @@ fun QuintaPantalla(
         Button(onClick = irAinicio) {
             Text(text = "Ir al Inicio")
         }
+        Button(onClick = iraCalculadora,
+            modifier = Modifier.padding(top = 16.dp)) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(
+                    imageVector = Icons.Default.List,
+                    contentDescription = "Icono calculadora",
+                    modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    text = "Calculadora",
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
 }
+
+@Composable
+fun QuintaPantalla(
+    irAinicio: () -> Unit,
+    iraCalculadora: () -> Unit
+){
+    Column (horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()){
+        Text(text = "Ultima Pantalla")
+        Button(onClick = irAinicio) {
+            Text(text = "Ir al Inicio")
+        }
+        Button(onClick = iraCalculadora,
+            modifier = Modifier.padding(top = 16.dp)) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(
+                    imageVector = Icons.Default.List,
+                    contentDescription = "Icono calculadora",
+                    modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    text = "Calculadora",
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
+}
+
 @Composable
 fun SextaPantalla(
-    irAinicio: () -> Unit
+    irAinicio: () -> Unit,
+    iraCalculadora: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -602,80 +638,183 @@ fun SextaPantalla(
                     color = Color.White
                 )
             }
+
+            // Botón para la calculadora
+            Button(
+                onClick = iraCalculadora,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1E88E5))
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.List,
+                        contentDescription = "Icono calculadora",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(
+                        text = "Calculadora",
+                        color = Color.White
+                    )
+                }
+            }
         }
     }
 }
+
 @Composable
 fun Navegacion() {
     val navHostController = rememberNavController()
     NavHost(
         navController = navHostController,
-        startDestination = Pantallas.Inicio.name
-
+        startDestination = "inicio"
     ) {
-        composable(route = Pantallas.Inicio.name) {
+        composable(route = "inicio") {
             PantallaInicial(
-                iraSegunda= { navHostController.navigate(Pantallas.Segunda.name) },
-                onNextClick = { navHostController.navigate(Pantallas.Segunda.name) }
+                iraSegunda= { navHostController.navigate("segunda") },
+                onNextClick = { navHostController.navigate("segunda") }
             )
         }
-        composable(route = Pantallas.Segunda.name) {
+        composable(route = "segunda") {
             SegundaPantalla(
-                iraTercera = { navHostController.navigate(Pantallas.Tercera.name) },
-                iraCuarta = { navHostController.navigate(Pantallas.Cuarta.name) },
-                iraQuinta = { navHostController.navigate(Pantallas.Quinta.name) },
-                iraSexta = { navHostController.navigate(Pantallas.Sexta.name) },
-               irAinicio =  { navHostController.navigate(Pantallas.Inicio.name) }
+                iraTercera = { navHostController.navigate("tercera") },
+                iraCuarta = { navHostController.navigate("cuarta") },
+                iraQuinta = { navHostController.navigate("quinta") },
+                iraSexta = { navHostController.navigate("sexta") },
+                irAinicio = { navHostController.navigate("inicio") },
+                iraCalculadora = { navHostController.navigate("calculadora") }
             )
         }
-        composable(route = Pantallas.Tercera.name) {
+        composable(route = "tercera") {
             TerceraPantalla(
-                onClick = { navHostController.navigate(Pantallas.Cuarta.name) },
-                iraCuarta = { navHostController.navigate(Pantallas.Cuarta.name) },
-                iraSegunda = { navHostController.navigate(Pantallas.Segunda.name) },
-                iraQuinta = { navHostController.navigate(Pantallas.Quinta.name) },
-                iraSexta = { navHostController.navigate(Pantallas.Sexta.name) },
-                irAinicio =  { navHostController.navigate(Pantallas.Inicio.name) })
+                onClick = { navHostController.navigate("cuarta") },
+                iraCuarta = { navHostController.navigate("cuarta") },
+                iraSegunda = { navHostController.navigate("segunda") },
+                iraQuinta = { navHostController.navigate("quinta") },
+                iraSexta = { navHostController.navigate("sexta") },
+                irAinicio = { navHostController.navigate("inicio") },
+                iraCalculadora = { navHostController.navigate("calculadora") }
+            )
         }
-            composable(route = Pantallas.Cuarta.name) {
-                CuartaPantalla(
-                    irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
-                )
-            }
-        composable(route = Pantallas.Quinta.name) {
+        composable(route = "cuarta") {
+            CuartaPantalla(
+                irAinicio = { navHostController.navigate("inicio") },
+                iraCalculadora = { navHostController.navigate("calculadora") }
+            )
+        }
+        composable(route = "quinta") {
             QuintaPantalla (
-                irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
+                irAinicio = { navHostController.navigate("inicio") },
+                iraCalculadora = { navHostController.navigate("calculadora") }
             )
         }
-        composable(route = Pantallas.Sexta.name) {
+        composable(route = "sexta") {
             SextaPantalla (
-                irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
+                irAinicio = { navHostController.navigate("inicio") },
+                iraCalculadora = { navHostController.navigate("calculadora") }
             )
         }
+        composable(route = "calculadora") {
+            CalculadoraPantalla()
         }
     }
+}
 
-    @Preview(showBackground = true)
-    @Composable
-    fun PreviewInicial() {
-        NavegacionAplimovilTheme {
-            PantallaInicial(
-                onNextClick = {},
-                iraSegunda = {}
-            )
+@Preview(showBackground = true)
+@Composable
+fun PreviewInicial() {
+    NavegacionAplimovilTheme {
+        PantallaInicial(
+            onNextClick = {},
+            iraSegunda = {}
+        )
+    }
+}
+
+@Composable
+fun CalculadoraPantalla() {
+    var numero1 by remember { mutableStateOf("") }
+    var numero2 by remember { mutableStateOf("") }
+    var resultado by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text("Calculadora", fontSize = 24.sp)
+
+        OutlinedTextField(
+            value = numero1,
+            onValueChange = { numero1 = it },
+            label = { Text("Número 1") },
+            keyboardOptions = androidx.compose.ui.text.input.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = numero2,
+            onValueChange = { numero2 = it },
+            label = { Text("Número 2") },
+            keyboardOptions = androidx.compose.ui.text.input.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(onClick = {
+                resultado = calcular(numero1, numero2, "+")
+            }) {
+                Text("+")
+            }
+
+            Button(onClick = {
+                resultado = calcular(numero1, numero2, "-")
+            }) {
+                Text("-")
+            }
+
+            Button(onClick = {
+                resultado = calcular(numero1, numero2, "*")
+            }) {
+                Text("×")
+            }
+
+            Button(onClick = {
+                resultado = calcular(numero1, numero2, "/")
+            }) {
+                Text("÷")
+            }
+        }
+
+        if (resultado.isNotEmpty()) {
+            Text("Resultado: $resultado", fontSize = 20.sp)
         }
     }
+}
 
-    enum class Pantallas() {
-    Inicio,
-    Segunda,
-    Tercera,
-    Cuarta,
-        Quinta,
-        Sexta
+fun calcular(n1: String, n2: String, operacion: String): String {
+    val num1 = n1.toDoubleOrNull()
+    val num2 = n2.toDoubleOrNull()
 
+    if (num1 == null || num2 == null) {
+        return "Valores inválidos"
     }
 
-
-
-
+    return when (operacion) {
+        "+" -> (num1 + num2).toString()
+        "-" -> (num1 - num2).toString()
+        "*" -> (num1 * num2).toString()
+        "/" -> {
+            if (num2 == 0.0) "División por cero" else (num1 / num2).toString()
+        }
+        else -> "Operación inválida"
+    }
+}
