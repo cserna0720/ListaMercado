@@ -26,6 +26,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
@@ -320,7 +321,6 @@ fun CampoDeTexto(valor: String, onValueChange: (String) -> Unit) {
 
 @Composable
 fun TerceraPantalla(
-    onClick: () -> Unit,
     iraQuinta: () -> Unit,
     iraCuarta: () -> Unit,
     iraSexta: () -> Unit,
@@ -495,29 +495,326 @@ fun CampoDeTextop3(valor: String, onValueChange: (String) -> Unit) {
     @Composable
     fun CuartaPantalla(
         irAinicio: () -> Unit
-    ){
-        Column (horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()){
-            Text(text = "Ultima Pantalla")
-            Button(onClick = irAinicio) {
-                Text(text = "Ir al Inicio")
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            // Encabezado "TUS COMPRAS" con iconos
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "TUS COMPRAS",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF90CAF9) // Color azul claro
+                )
+                Row {
+                    Icon(
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "Carrito",
+                        tint = Color(0xFF90CAF9),
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+
+            // Grid de productos (2x2)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Columna izquierda
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ProductoCard("Producto")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    ProductoCard("Producto")
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                // Columna derecha
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ProductoCard("Producto")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    ProductoCard("Producto")
+                }
+            }
+
+            // Sección "TIENDAS DISPONIBLES"
+            TituloSeccion("TIENDAS DISPONIBLES")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ProductoCard("Producto")
+                Spacer(modifier = Modifier.width(8.dp))
+                ProductoCard("Producto")
+            }
+
+            // Sección "ESTADÍSTICA POR COMPRA"
+            TituloSeccion("ESTADÍSTICA POR COMPRA")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ProductoCard("Producto")
+                Spacer(modifier = Modifier.width(8.dp))
+                ProductoCard("Producto")
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            // Sección inferior con "VALOR TOTAL" y "PRECIO DETALLADO"
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "VALOR TOTAL\nPOR COMPRA",
+                    fontSize = 16.sp,
+                    color = Color(0xFF90CAF9),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = "PRECIO\nDETALLADO",
+                    fontSize = 16.sp,
+                    color = Color(0xFF90CAF9),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            // Botón de retroceso
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                IconButton(
+                    onClick = irAinicio,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(Color.Red, CircleShape)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.flecha_izquirda),
+                        contentDescription = "Regresar",
+                        tint = Color.White
+                    )
+                }
             }
         }
     }
+
+// Componente reutilizable para las tarjetas de producto
+@Composable
+fun ProductoCard(texto: String) {
+    Box(
+        modifier = Modifier
+            .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+            .padding(16.dp)
+            .size(120.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = texto,
+            color = Color.Gray,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+// Componente para los títulos de sección
+@Composable
+fun TituloSeccion(texto: String) {
+    Text(
+        text = texto,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color(0xFF90CAF9),
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
+}
 @Composable
 fun QuintaPantalla(
-    irAinicio: () -> Unit,
-){
-    Column (horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()){
-        Text(text = "Ultima Pantalla")
-        Button(onClick = irAinicio) {
-            Text(text = "Ir al Inicio")
+irAinicio: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        // Encabezado "TUS LISTAS" con iconos
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "TUS LISTAS",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF90CAF9)
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.List,
+                    contentDescription = "Listas",
+                    tint = Color(0xFF90CAF9),
+                    modifier = Modifier.size(24.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.ShoppingCart,
+                    contentDescription = "Carrito",
+                    tint = Color(0xFF90CAF9),
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+
+        // Grid de meses con sus productos (2x2)
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Primera fila: Enero y Febrero
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                MesCard("ENERO", listOf("Producto", "Producto"))
+                MesCard("FEBRERO", listOf("Producto", "Producto"))
+            }
+
+            // Segunda fila: Marzo y Abril
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                MesCard("MARZO", listOf("Producto", "Producto"))
+                MesCard("ABRIL", listOf("Producto", "Producto"))
+            }
+        }
+
+        // Botón de retroceso
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            IconButton(
+                onClick = irAinicio,
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(Color.Red, CircleShape)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.flecha_izquirda),
+                    contentDescription = "Regresar",
+                    tint = Color.White
+                )
+            }
+        }
+
+        // Barra de navegación inferior
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Icon(
+                imageVector = Icons.Default.Home,
+                contentDescription = "Inicio",
+                tint = Color.Gray,
+                modifier = Modifier.size(24.dp)
+            )
+            Icon(
+                imageVector = Icons.Default.List,
+                contentDescription = "Listas",
+                tint = Color(0xFF90CAF9), // Activo
+                modifier = Modifier.size(24.dp)
+            )
+            Icon(
+                imageVector = Icons.Default.ShoppingCart,
+                contentDescription = "Carrito",
+                tint = Color.Gray,
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
 }
+
+// Componente para mostrar un mes con sus productos
+@Composable
+fun MesCard(mes: String, productos: List<String>) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        // Título del mes
+        Text(
+            text = mes,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF90CAF9),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            textAlign = TextAlign.Center
+        )
+
+        // Lista de productos
+        productos.forEach { producto ->
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp)
+                    .background(Color.White, RoundedCornerShape(4.dp))
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = producto,
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+    }
+}
+
+
 @Composable
 fun SextaPantalla(
     irAinicio: () -> Unit
@@ -630,7 +927,6 @@ fun Navegacion() {
         }
         composable(route = Pantallas.Tercera.name) {
             TerceraPantalla(
-                onClick = { navHostController.navigate(Pantallas.Cuarta.name) },
                 iraCuarta = { navHostController.navigate(Pantallas.Cuarta.name) },
                 iraSegunda = { navHostController.navigate(Pantallas.Segunda.name) },
                 iraQuinta = { navHostController.navigate(Pantallas.Quinta.name) },
