@@ -22,14 +22,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -54,6 +60,7 @@ import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -320,7 +327,6 @@ fun CampoDeTexto(valor: String, onValueChange: (String) -> Unit) {
 
 @Composable
 fun TerceraPantalla(
-    onClick: () -> Unit,
     iraQuinta: () -> Unit,
     iraCuarta: () -> Unit,
     iraSexta: () -> Unit,
@@ -492,32 +498,330 @@ fun CampoDeTextop3(valor: String, onValueChange: (String) -> Unit) {
     }
 }
 
-    @Composable
-    fun CuartaPantalla(
-        irAinicio: () -> Unit
-    ){
-        Column (horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()){
-            Text(text = "Ultima Pantalla")
-            Button(onClick = irAinicio) {
-                Text(text = "Ir al Inicio")
+@Composable
+fun CuartaPantalla(
+    irAtras: () -> Unit  // Cambiado de irAinicio a irAtras
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        // Encabezado "TUS COMPRAS" con iconos
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "TUS COMPRAS",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF90CAF9),
+                modifier = Modifier.padding(start = 16.dp)
+            )
+            Icon(
+                imageVector = Icons.Default.ShoppingCart,
+                contentDescription = "Carrito",
+                tint = Color(0xFF90CAF9),
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .size(24.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Grid de productos (2x2)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Columna izquierda
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                ProductoCard("Producto")
+                ProductoCard("Producto")
+            }
+
+            // Columna derecha
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                ProductoCard("Producto")
+                ProductoCard("Producto")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Sección "TIENDAS DISPONIBLES"
+        TituloSeccion("TIENDAS DISPONIBLES")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ProductoCard("Producto", modifier = Modifier.weight(1f))
+            ProductoCard("Producto", modifier = Modifier.weight(1f))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Sección "ESTADÍSTICA POR COMPRA"
+        TituloSeccion("ESTADÍSTICA POR COMPRA")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ProductoCard("Producto", modifier = Modifier.weight(1f))
+            ProductoCard("Producto", modifier = Modifier.weight(1f))
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        // Sección inferior con "VALOR TOTAL" y "PRECIO DETALLADO"
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "VALOR TOTAL\nPOR COMPRA",
+                fontSize = 14.sp,
+                color = Color(0xFF90CAF9),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = "PRECIO\nDETALLADO",
+                fontSize = 14.sp,
+                color = Color(0xFF90CAF9),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        // Botón de retroceso
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            IconButton(
+                onClick = irAtras,  // Cambiado a irAtras
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(Color.Red, CircleShape)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.flecha_izquirda),
+                    contentDescription = "Regresar",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
             }
         }
     }
+}
+
+// Mantener los componentes auxiliares
+@Composable
+fun ProductoCard(
+    texto: String,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .height(90.dp)
+            .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+            .padding(8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = texto,
+            color = Color.Gray,
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun TituloSeccion(texto: String) {
+    Text(
+        text = texto,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color(0xFF90CAF9),
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
+}
 @Composable
 fun QuintaPantalla(
-    irAinicio: () -> Unit,
-){
-    Column (horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()){
-        Text(text = "Ultima Pantalla")
-        Button(onClick = irAinicio) {
-            Text(text = "Ir al Inicio")
+    irAtras: () -> Unit  // Cambiado de irAinicio a irAtras
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .background(Color.White)
+    ) {
+        // Encabezado "TUS LISTAS" con iconos
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "TUS LISTAS",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF90CAF9),
+                modifier = Modifier.padding(start = 16.dp)
+            )
+            Row(
+                modifier = Modifier.padding(end = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.List,
+                    contentDescription = "Listas",
+                    tint = Color(0xFF90CAF9)
+                )
+                Icon(
+                    imageVector = Icons.Default.ShoppingCart,
+                    contentDescription = "Carrito",
+                    tint = Color(0xFF90CAF9)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Contenedor principal con scroll
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Enero
+            MesCard("ENERO", listOf("Producto", "Producto"))
+
+            // Febrero
+            MesCard("FEBRERO", listOf("Producto", "Producto"))
+
+            // Marzo
+            MesCard("MARZO", listOf("Producto", "Producto"))
+
+            // Abril
+            MesCard("ABRIL", listOf("Producto", "Producto"))
+        }
+
+        // Botón de retroceso circular rojo
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            IconButton(
+                onClick = irAtras,  // Usando irAtras en lugar de irAinicio
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(Color.Red, CircleShape)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.flecha_izquirda),
+                    contentDescription = "Regresar",
+                    tint = Color.White
+                )
+            }
+        }
+
+        // Barra de navegación inferior
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Icon(
+                imageVector = Icons.Default.Home,
+                contentDescription = "Inicio",
+                tint = Color.Gray
+            )
+            Icon(
+                imageVector = Icons.Default.List,
+                contentDescription = "Listas",
+                tint = Color(0xFF90CAF9)
+            )
+            Icon(
+                imageVector = Icons.Default.ShoppingCart,
+                contentDescription = "Carrito",
+                tint = Color.Gray
+            )
         }
     }
 }
+
+@Composable
+fun MesCard(mes: String, productos: List<String>) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        // Título del mes
+        Text(
+            text = mes,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF90CAF9),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(vertical = 8.dp),
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Contenedor de productos
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFE3F2FD), RoundedCornerShape(8.dp))
+                .padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            productos.forEach { producto ->
+                Text(
+                    text = producto,
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White, RoundedCornerShape(4.dp))
+                        .padding(vertical = 8.dp)
+                )
+            }
+        }
+    }
+}
+
+
 @Composable
 fun SextaPantalla(
     irAinicio: () -> Unit
@@ -605,18 +909,177 @@ fun SextaPantalla(
         }
     }
 }
+
+
+@Composable
+fun SeptimaPantalla(
+    irAtras: () -> Unit
+) {
+    var nombre by remember { mutableStateOf("") }
+    var apellido by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var telefono by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Logo
+        Image(
+            painter = painterResource(id = R.drawable.unnamed),
+            contentDescription = "Logo",
+            modifier = Modifier
+                .size(120.dp)
+                .padding(vertical = 16.dp)
+        )
+
+        Text(
+            text = "CREAR CUENTA",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF1E88E5),
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        // Campos de registro
+        OutlinedTextField(
+            value = nombre,
+            onValueChange = { nombre = it },
+            label = { Text("Nombre") },
+            leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true
+        )
+
+        OutlinedTextField(
+            value = apellido,
+            onValueChange = { apellido = it },
+            label = { Text("Apellido") },
+            leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true
+        )
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Correo Electrónico") },
+            leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        )
+
+        OutlinedTextField(
+            value = telefono,
+            onValueChange = { telefono = it },
+            label = { Text("Teléfono") },
+            leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+        )
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Contraseña") },
+            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            singleLine = true,
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisible) R.drawable.ojoa_removebg_preview else R.drawable.ojoc_removebg_preview
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Image(
+                        painter = painterResource(id = icon),
+                        contentDescription = "Mostrar/Ocultar contraseña",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Botón de registro
+        Button(
+            onClick = {
+                if (validarCampos(nombre, apellido, email, telefono, password)) {
+                    Toast.makeText(context, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
+                    irAtras()
+                } else {
+                    Toast.makeText(context, "Por favor complete todos los campos correctamente", Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+        ) {
+            Text("Registrarse", color = Color.White)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Botón de retroceso
+        IconButton(
+            onClick = irAtras,
+            modifier = Modifier
+                .size(48.dp)
+                .background(Color.Red, CircleShape)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.flecha_izquirda),
+                contentDescription = "Regresar",
+                tint = Color.White
+            )
+        }
+    }
+}
+
+// Función para validar los campos
+private fun validarCampos(
+    nombre: String,
+    apellido: String,
+    email: String,
+    telefono: String,
+    password: String
+): Boolean {
+    return nombre.isNotBlank() &&
+            apellido.isNotBlank() &&
+            email.matches(Regex("[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) &&
+            telefono.matches(Regex("\\d{10}")) &&
+            password.length >= 6
+}
+
 @Composable
 fun Navegacion() {
     val navHostController = rememberNavController()
     NavHost(
         navController = navHostController,
         startDestination = Pantallas.Inicio.name
-
     ) {
         composable(route = Pantallas.Inicio.name) {
             PantallaInicial(
-                iraSegunda= { navHostController.navigate(Pantallas.Segunda.name) },
-                onNextClick = { navHostController.navigate(Pantallas.Segunda.name) }
+                iraSegunda = { navHostController.navigate(Pantallas.Segunda.name) },
+                onNextClick = { navHostController.navigate(Pantallas.Septima.name) }
             )
         }
         composable(route = Pantallas.Segunda.name) {
@@ -625,36 +1088,42 @@ fun Navegacion() {
                 iraCuarta = { navHostController.navigate(Pantallas.Cuarta.name) },
                 iraQuinta = { navHostController.navigate(Pantallas.Quinta.name) },
                 iraSexta = { navHostController.navigate(Pantallas.Sexta.name) },
-               irAinicio =  { navHostController.navigate(Pantallas.Inicio.name) }
+                irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
             )
         }
         composable(route = Pantallas.Tercera.name) {
             TerceraPantalla(
-                onClick = { navHostController.navigate(Pantallas.Cuarta.name) },
                 iraCuarta = { navHostController.navigate(Pantallas.Cuarta.name) },
                 iraSegunda = { navHostController.navigate(Pantallas.Segunda.name) },
                 iraQuinta = { navHostController.navigate(Pantallas.Quinta.name) },
                 iraSexta = { navHostController.navigate(Pantallas.Sexta.name) },
-                irAinicio =  { navHostController.navigate(Pantallas.Inicio.name) })
-        }
-            composable(route = Pantallas.Cuarta.name) {
-                CuartaPantalla(
-                    irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
-                )
-            }
-        composable(route = Pantallas.Quinta.name) {
-            QuintaPantalla (
                 irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
+            )
+        }
+        composable(route = Pantallas.Cuarta.name) {
+            CuartaPantalla(
+                irAtras = { navHostController.navigateUp() }
+            )
+        }
+        composable(route = Pantallas.Quinta.name) {
+            QuintaPantalla(
+                irAtras = { navHostController.navigateUp() }
             )
         }
         composable(route = Pantallas.Sexta.name) {
-            SextaPantalla (
+            SextaPantalla(
                 irAinicio = { navHostController.navigate(Pantallas.Inicio.name) }
             )
         }
+        composable(route = Pantallas.Septima.name) {
+            SeptimaPantalla(
+                irAtras = { navHostController.navigateUp() }
+            )
         }
     }
+}
 
+// ... [El resto del código existente se mantiene igual] ...
     @Preview(showBackground = true)
     @Composable
     fun PreviewInicial() {
@@ -672,7 +1141,8 @@ fun Navegacion() {
     Tercera,
     Cuarta,
         Quinta,
-        Sexta
+        Sexta,
+        Septima,
 
     }
 
