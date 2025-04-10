@@ -661,6 +661,7 @@ fun TituloSeccion(texto: String) {
         modifier = Modifier.padding(vertical = 8.dp)
     )
 }
+
 @Composable
 fun QuintaPantalla(
     irAinicio: () -> Unit
