@@ -298,7 +298,7 @@ fun SeccionCategoria(titulo: String, icono: Int) {
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(titulo, fontSize = 18.sp, modifier = Modifier.weight(1f))
+        Text(titulo, color=Color.White, fontSize = 18.sp, modifier = Modifier.weight(1f))
         Image(painter = painterResource(id = icono), contentDescription = titulo, modifier = Modifier.size(60.dp))
     }
 }
